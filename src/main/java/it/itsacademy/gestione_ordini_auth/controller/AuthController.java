@@ -51,4 +51,10 @@ public class AuthController {
     }
     @GetMapping(path = "/health")
     public void health() {}
+
+    //AJOUT POUR LA GESTION DES EMAILS DE PAYEMENT
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserEmailDTO> getUserById(@PathVariable("id") UUID idUtente) {
+        return ResponseEntity.ok(authService.getUserByEmail(idUtente));
+    }
 }
