@@ -3,6 +3,7 @@ package it.itsacademy.gestione_ordini_auth.mapper;
 import it.itsacademy.gestione_ordini_auth.dto.AuthUserDTO;
 import it.itsacademy.gestione_ordini_auth.dto.SignUpDTO;
 import it.itsacademy.gestione_ordini_auth.dto.AuthUserUpdateDTO;
+import it.itsacademy.gestione_ordini_auth.dto.UserEmailDTO;
 import it.itsacademy.gestione_ordini_auth.entity.AuthUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,11 +21,13 @@ public interface AuthUserMapper {
     public AuthUser toAuthUserSignUp(SignUpDTO signupDto);
 
     // Correspond à toUtenteDTO : convertit l'entité MySQL vers le DTO de sortie sécurisé
+    @Mapping(target = "token", ignore = true)//ajout pour ignorer
     public AuthUserDTO toAuthUserDTO(AuthUser authUser);
 
     // Correspond à toUtente : reconvertit un DTO complet vers l'entité en masquant le mot de passe
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "isAttivo", ignore = true)
+    @Mapping(target = "email", ignore = true)//ajout pour ignorer
     public AuthUser toAuthUser(AuthUserDTO authUserDto);
 
     // Correspond à toUtenteDTOList : permet de mapper des listes d'utilisateurs si nécessaire
@@ -35,5 +38,10 @@ public interface AuthUserMapper {
     @Mapping(target = "username", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "email", ignore = true)//ajout pour ignorer
     public void updateAuthUserFromDTO(AuthUserUpdateDTO authUserUpdateDto, @MappingTarget AuthUser authUser);
+
+    //Ajout : utilisateur pour la gestion des email, convertit un AuthUser en UserEmailDTO
+    public UserEmailDTO toUserEmailDTO(AuthUser user);
+
 }
