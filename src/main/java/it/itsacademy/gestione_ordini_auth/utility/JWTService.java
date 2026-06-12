@@ -4,13 +4,14 @@ import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 public interface JWTService {
 
     public String extractUsername(String token);
-
-    public String generateToken(UserDetails userDetails);
+    //on a ajouter l'id en plus pour la gestion des emails
+    public String generateToken(UserDetails userDetails, UUID idUtente);
 
     // Version surchargée cruciale pour ajouter l'ID de l'utilisateur et ses rôles
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails);

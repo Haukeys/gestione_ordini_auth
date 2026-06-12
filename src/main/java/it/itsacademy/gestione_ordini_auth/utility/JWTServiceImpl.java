@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service
@@ -28,20 +30,21 @@ public class JWTServiceImpl implements JWTService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
-    public String generateToken(UserDetails userDetails) {
+    // Ici, on a tout ce qui sera injecter dans le token qui nous servira à acceder au autre service
+    public String generateToken(UserDetails userDetails, UUID idUtente) {
         Map<String, Object> extraClaims = new HashMap<>();
 
         // 1. Récupérer les rôles sous forme de chaîne de caractères (ex: "ROLE_USER")
         String roles = userDetails.getAuthorities().stream()
-                .map(org.springframework.security.core.GrantedAuthority::getAuthority)
+                .map(GrantedAuthority::getAuthority)
                 .collect(java.util.stream.Collectors.joining(","));
 
         // 2. Mettre les rôles dans les claims du JWT
         extraClaims.put("roles", roles);
 
-        // 3. Si vous utilisez un ID utilisateur, vous pouvez aussi l'ajouter ici
-        // extraClaims.put("userId", ...);
+        // 3.ID utilisateur, dans les claims du JWT
+        extraClaims.put("userId", idUtente.toString());// c'est pour rester coherent avec ce qu'il y a dans le reste du
+        //projet comme dans gateway, on utilise ""userId et non autre chose
 
         return generateToken(extraClaims, userDetails);
     }
