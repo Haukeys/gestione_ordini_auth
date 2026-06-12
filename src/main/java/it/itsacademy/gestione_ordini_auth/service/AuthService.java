@@ -1,9 +1,6 @@
 package it.itsacademy.gestione_ordini_auth.service;
 
-import it.itsacademy.gestione_ordini_auth.dto.AuthUserDTO;
-import it.itsacademy.gestione_ordini_auth.dto.LoginDTO;
-import it.itsacademy.gestione_ordini_auth.dto.SignUpDTO;
-import it.itsacademy.gestione_ordini_auth.dto.AuthUserUpdateDTO;
+import it.itsacademy.gestione_ordini_auth.dto.*;
 
 import java.util.UUID;
 
@@ -17,4 +14,8 @@ public interface AuthService {
 
     // Mise à jour : prend l'UUID de l'utilisateur et le DTO authuser_update
     public AuthUserDTO updateProfile(UUID idUtente, AuthUserUpdateDTO authUserUpdateDTO);
+
+    // email: prend l'UUID de l'utilisateur et le retourne en un user qui pourra recevoir des emails
+    public UserEmailDTO getUserByEmail(UUID idUtente);
+
 }

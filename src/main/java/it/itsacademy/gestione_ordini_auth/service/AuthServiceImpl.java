@@ -1,9 +1,6 @@
 package it.itsacademy.gestione_ordini_auth.service;
 
-import it.itsacademy.gestione_ordini_auth.dto.AuthUserDTO;
-import it.itsacademy.gestione_ordini_auth.dto.LoginDTO;
-import it.itsacademy.gestione_ordini_auth.dto.SignUpDTO;
-import it.itsacademy.gestione_ordini_auth.dto.AuthUserUpdateDTO;
+import it.itsacademy.gestione_ordini_auth.dto.*;
 import it.itsacademy.gestione_ordini_auth.entity.AuthUser;
 import it.itsacademy.gestione_ordini_auth.entity.Role;
 import it.itsacademy.gestione_ordini_auth.entity.Roles;
@@ -12,6 +9,7 @@ import it.itsacademy.gestione_ordini_auth.repository.AuthUserRepository;
 import it.itsacademy.gestione_ordini_auth.repository.RoleRepository;
 import it.itsacademy.gestione_ordini_auth.utility.JWTService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -114,5 +113,13 @@ public class AuthServiceImpl implements AuthService {
 
         // Retourner l'AuthUserDTO modifié
         return authUserMapper.toAuthUserDTO(updatedUser);
+    }
+    //Ajout check service pour plus d'information
+    @Override
+    @Transactional
+    public UserEmailDTO getUserByEmail(UUID idUtente) {
+        AuthUser user = authUserRepository.findById(idUtente)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Utente non trovato"));
+        return authUserMapper.toUserEmailDTO(user);
     }
 }
