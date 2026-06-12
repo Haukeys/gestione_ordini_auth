@@ -22,4 +22,7 @@ public class SignUpDTO {
 
     @NotBlank(message = "Il surname non puo essere vuoto")
     private String surname;
+    //AJOUT FAIT POUR LA GESTION DES EMAILS DE PAYEMENT
+    @NotBlank(message = "L'email non puo essere vuoto")
+    private String email;
 }
