@@ -37,7 +37,7 @@ public class AuthUser {
     private String surname;
     @Column(nullable = false)
     public Boolean isAttivo=true;
-    //AJOUT FAIT POUR LA GESTION DES EMAILS DE PAYEMENT
+    //AJOUT FAIT POUR LA GESTION DES EMAILS DE PAYEMENTs
     @Column(nullable = false,unique = true)
     private String email;
 
