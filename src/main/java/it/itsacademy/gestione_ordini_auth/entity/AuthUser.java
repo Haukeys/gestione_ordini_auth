@@ -19,6 +19,7 @@ public class AuthUser {
     @GeneratedValue(strategy = GenerationType.UUID)//
     @Column(name = "id_AuthUser")
     private UUID idUtente;//UUID standard per i id
+
     @Column(nullable = false, unique = true)
     private String username;
 
